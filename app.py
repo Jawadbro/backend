@@ -9,17 +9,22 @@ import uuid
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-# --- CORS Middleware ---
+# --- FastAPI App ---
 app = FastAPI()
+
+# --- CORS Middleware (UPDATED) ---
 origins = [
     "http://localhost:3000",  # React dev server
+    "https://database-five-mu.vercel.app/",  # Replace with your actual Vercel domain
+    "https://*.vercel.app",  # Allow all Vercel preview deployments (optional)
 ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,  # Specify allowed origins
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
 )
 
 # --- Database Connection ---
