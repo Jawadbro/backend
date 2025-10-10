@@ -1,0 +1,5 @@
+mysql-connector-python
+sentence-transformers
+numpy
+fastapi 
+uvicorn 
