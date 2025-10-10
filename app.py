@@ -12,7 +12,8 @@ from sentence_transformers import SentenceTransformer
 # --- CORS Middleware ---
 app = FastAPI()
 origins = [
-    "http://localhost:3000",  # React dev server
+    "http://localhost:3000", 
+     "https://database-five-mu.vercel.app/" # React dev server
 ]
 app.add_middleware(
     CORSMiddleware,
