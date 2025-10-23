@@ -25,18 +25,21 @@ app.add_middleware(
 )
 
 # --- Database Connection ---
+
 def get_db_connection():
     """Connect to MySQL database using environment variables"""
     try:
         connection = mysql.connector.connect(
-            host=os.environ.get('DB_HOST', 'localhost'),
-            port=int(os.environ.get('DB_PORT', 3306)),
-            user=os.environ.get('DB_USER', 'root'),
-            password=os.environ.get('DB_PASSWORD', 'mahin1tanim2@'),
-            database=os.environ.get('DB_NAME', 'casa_rom_sales'),
+            host=os.environ['DB_HOST'], 
+            port=int(os.environ['DB_PORT']),  
+            user=os.environ['DB_USER'], 
+            password=os.environ['DB_PASSWORD'],  
+            database=os.environ['DB_NAME'], 
             connect_timeout=10
         )
         return connection
+    except KeyError as e:
+        raise HTTPException(status_code=500, detail=f"Missing environment variable: {str(e)}")
     except mysql.connector.Error as err:
         print(f"Database connection error: {err}")
         raise HTTPException(status_code=500, detail=f"Database connection failed: {str(err)}")
