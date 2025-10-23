@@ -8,12 +8,13 @@ import json
 import uuid
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import os
 
 # --- CORS Middleware ---
 app = FastAPI()
 origins = [
     "http://localhost:3000", 
-     "https://database-five-mu.vercel.app", # React dev server
+    "https://database-five-mu.vercel.app",
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -25,12 +26,20 @@ app.add_middleware(
 
 # --- Database Connection ---
 def get_db_connection():
-    return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='mahin1tanim2@',  # <-- CHANGE THIS
-        database='casa_rom_sales'      # <-- CHANGE THIS
-    )
+    """Connect to MySQL database using environment variables"""
+    try:
+        connection = mysql.connector.connect(
+            host=os.environ.get('DB_HOST', 'localhost'),
+            port=int(os.environ.get('DB_PORT', 3306)),
+            user=os.environ.get('DB_USER', 'root'),
+            password=os.environ.get('DB_PASSWORD', 'mahin1tanim2@'),
+            database=os.environ.get('DB_NAME', 'casa_rom_sales'),
+            connect_timeout=10
+        )
+        return connection
+    except mysql.connector.Error as err:
+        print(f"Database connection error: {err}")
+        raise HTTPException(status_code=500, detail=f"Database connection failed: {str(err)}")
 
 # --- Pydantic Models ---
 class Product(BaseModel):
