@@ -13,7 +13,8 @@ from sentence_transformers import SentenceTransformer
 app = FastAPI()
 origins = [
     "http://localhost:3000", 
-     "https://database-five-mu.vercel.app/" # React dev server
+     "https://database-five-mu.vercel.app",
+      "https://backend-1-umrx.onrender.com" # React dev server
 ]
 app.add_middleware(
     CORSMiddleware,
